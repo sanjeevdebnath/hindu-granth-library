@@ -6,17 +6,25 @@
 </head>
 <body>
 <header class="topbar">
-<button id="menuBtn" class="icon-btn">☰</button>
+<button id="menuBtn" class="icon-btn" aria-label="मेनू खोलें">☰</button>
 <div class="brand"><div class="brand-mark">ॐ</div><div><div id="bookTitle" class="brand-title">शिवमहापुराण</div><div class="brand-subtitle">सरल डिजिटल पाठ</div></div></div>
 <button id="fontBtn" class="font-btn">अ / अ+</button>
 </header>
+
+<div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
 <div class="layout">
 <aside id="sidebar" class="sidebar">
-<div class="side-heading">पुस्तक</div>
-<div class="book-card">📖 <strong>शिवमहापुराण</strong></div>
-<div class="side-heading chapter-heading">अध्याय</div>
-<div id="chapterList"></div>
+  <div class="mobile-menu-head">
+    <strong>पुस्तक</strong>
+    <button id="closeMenuBtn" class="close-menu-btn" aria-label="मेनू बंद करें">×</button>
+  </div>
+  <div class="side-heading desktop-side-heading">पुस्तक</div>
+  <div class="book-card">📖 <strong>शिवमहापुराण</strong></div>
+  <div class="side-heading chapter-heading">अध्याय</div>
+  <div id="chapterList"></div>
 </aside>
+
 <main class="content">
 <div class="breadcrumbs">शिवमहापुराण › माहात्म्य</div>
 <section class="chapter-header">
@@ -24,12 +32,18 @@
 <h1 id="chapterTitle">प्रथम अध्याय</h1>
 <p id="chapterDescription"></p>
 </section>
+
 <div class="toolbar">
-<label class="search">⌕ <input id="searchInput" type="search" placeholder="इस अध्याय में खोजें…"></label>
-<button id="meaningBtn" class="toggle-btn active">हिन्दी अर्थ</button>
+  <label class="search">⌕ <input id="searchInput" type="search" placeholder="इस अध्याय में खोजें…"></label>
+  <div class="reading-controls">
+    <button id="meaningBtn" class="toggle-btn active">हिन्दी अर्थ</button>
+    <button id="tocBtn" class="small-btn">श्लोक आरम्भ</button>
+  </div>
 </div>
-<div class="chapter-tools"><span id="verseCount"></span><button id="tocBtn" class="small-btn">श्लोक आरम्भ</button></div>
+
+<div class="chapter-tools"><span id="verseCount"></span></div>
 <div id="verseList"></div>
+
 <nav class="chapter-pager"><button disabled>← पिछला अध्याय</button><span>पूरा अध्याय एक ही पृष्ठ पर</span><button disabled>अगला अध्याय →</button></nav>
 <footer>ॐ नमः शिवाय</footer>
 </main></div>

@@ -16,18 +16,40 @@ function esc(s = "") {
   return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 }
 
-function render(verses) {
+function render(groups) {
   const q = document.getElementById("searchInput").value.trim().toLowerCase();
-  const filtered = verses.filter(v => !q || `${v.sanskrit} ${v.meaning} ${v.speaker}`.toLowerCase().includes(q));
-  document.getElementById("verseCount").textContent =
-    q ? `${filtered.length} श्लोक मिले` : `इस अध्याय में ${filtered.length} श्लोक`;
 
-  document.getElementById("verseList").innerHTML = filtered.map(v => `
-    <article class="verse" id="shloka-${v.number}">
-      <div class="verse-top"><span class="verse-number">${hn(v.number)}</span><span class="speaker">${esc(v.speaker)}</span></div>
+  const filtered = groups.map(g => ({
+    ...g,
+    shlokas: g.shlokas.filter(s =>
+      !q || `${s.sanskrit} ${g.meaning || ""} ${g.speaker || ""}`.toLowerCase().includes(q)
+    )
+  })).filter(g => g.shlokas.length);
+
+  const count = filtered.reduce((n, g) => n + g.shlokas.length, 0);
+  document.getElementById("verseCount").textContent =
+    q ? `${count} श्लोक मिले` : `इस अध्याय में ${count} श्लोक`;
+
+  document.getElementById("verseList").innerHTML = filtered.map(g => `
+    <article class="verse-group">
+      <div class="verse-top">
+        <span class="verse-number">${hn(g.shlokas[0].number)}</span>
+        <span class="speaker">${esc(g.speaker || "")}</span>
+        ${g.shlokas.length > 1 ? `<span class="group-range">श्लोक ${hn(g.shlokas[0].number)}–${hn(g.shlokas[g.shlokas.length - 1].number)}</span>` : ""}
+      </div>
       <div class="verse-body">
-        <div class="sanskrit">${esc(v.sanskrit)}</div>
-        ${showMeaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div>${esc(v.meaning)}</div>` : ""}
+        <div class="sanskrit-group">
+          ${g.shlokas.map(s => `
+            <div class="shloka" id="shloka-${s.number}">
+              <span class="shloka-number">॥ ${hn(s.number)} ॥</span>
+              <div>${esc(s.sanskrit)}</div>
+            </div>`).join("")}
+        </div>
+        ${showMeaning ? `
+          <div class="meaning">
+            <div class="meaning-label">हिन्दी अर्थ</div>
+            <div>${esc(g.meaning || "")}</div>
+          </div>` : ""}
       </div>
     </article>`).join("");
 }
@@ -39,15 +61,29 @@ function renderChapters() {
     <button class="chapter-link ${c.number === currentChapter.chapter ? "active":""}" data-id="${c.id}">
       <span>${hn(c.number)}</span><span>अध्याय ${hn(c.number)}</span>
     </button>`).join("");
+
   box.querySelectorAll("button").forEach(b => b.onclick = async () => {
     const c = chapters.find(x => x.id === b.dataset.id);
     currentChapter = await loadJSON(`books/shivamahapurana/mahatmya/${c.id}.json`);
     document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
     document.getElementById("chapterDescription").textContent = currentChapter.title;
     renderChapters();
-    render(currentChapter.verses);
+    render(currentChapter.groups);
+    closeSidebar();
     window.scrollTo({top:0, behavior:"smooth"});
   });
+}
+
+function openSidebar() {
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("sidebarBackdrop").classList.add("show");
+  document.body.classList.add("menu-open");
+}
+
+function closeSidebar() {
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("sidebarBackdrop").classList.remove("show");
+  document.body.classList.remove("menu-open");
 }
 
 async function init() {
@@ -57,19 +93,34 @@ async function init() {
   document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
   document.getElementById("chapterDescription").textContent = currentChapter.title;
   renderChapters();
-  render(currentChapter.verses);
+  render(currentChapter.groups);
 }
 
-document.getElementById("searchInput").oninput = () => render(currentChapter.verses);
+document.getElementById("searchInput").oninput = () => render(currentChapter.groups);
+
 document.getElementById("meaningBtn").onclick = () => {
   showMeaning = !showMeaning;
   document.getElementById("meaningBtn").classList.toggle("active", showMeaning);
-  render(currentChapter.verses);
+  render(currentChapter.groups);
 };
+
 document.getElementById("fontBtn").onclick = () => {
   fontStep = (fontStep + 1) % 4;
   document.documentElement.style.setProperty("--reading", ["1.28rem","1.42rem","1.58rem","1.76rem"][fontStep]);
 };
-document.getElementById("menuBtn").onclick = () => document.getElementById("sidebar").classList.toggle("open");
-document.getElementById("tocBtn").onclick = () => document.getElementById("verseList").scrollIntoView({behavior:"smooth"});
-init().catch(e => document.getElementById("verseList").innerHTML = `<div class="verse"><div class="verse-body">सामग्री लोड नहीं हो सकी।</div></div>`);
+
+document.getElementById("menuBtn").onclick = () => {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.classList.contains("open") ? closeSidebar() : openSidebar();
+};
+
+document.getElementById("sidebarBackdrop").onclick = closeSidebar;
+document.getElementById("closeMenuBtn").onclick = closeSidebar;
+
+document.getElementById("tocBtn").onclick = () =>
+  document.getElementById("verseList").scrollIntoView({behavior:"smooth"});
+
+init().catch(e =>
+  document.getElementById("verseList").innerHTML =
+    `<div class="verse-group"><div class="verse-body">सामग्री लोड नहीं हो सकी।</div></div>`
+);
