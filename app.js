@@ -42,7 +42,9 @@ function render(blocks) {
           ${b.shlokas.map(s => `
             <div class="shloka" id="shloka-${s.number}">
               <span class="shloka-number">॥ ${hn(s.number)} ॥</span>
-              <div class="shloka-text">${(s.lines || []).map(line => `<div>${esc(line)}</div>`).join("")}</div>`).join("")}</div>
+              <div class="shloka-text">
+                ${(s.lines || []).map(line => `<div>${esc(line)}</div>`).join("")}
+              </div>
             </div>`).join("")}
         </div>
         ${showMeaning && b.meaning ? `
