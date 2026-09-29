@@ -58,3 +58,9 @@ Each shloka stores explicit `lines` so the reading layout can preserve the line 
 
 ### v15 UI fix
 The A / A+ reading control now increases both Sanskrit shloka text and Hindi meaning text, with mobile and desktop sizes tuned separately.
+
+
+### Sanskrit line formatting
+Each shloka stores its printed Sanskrit line breaks in `lines`. This is intentional:
+a shloka may occupy two, three, or four printed lines depending on the source edition.
+There is no duplicate `sanskrit` field.

@@ -22,7 +22,7 @@ function render(blocks) {
   const filtered = blocks.map(b => ({
     ...b,
     shlokas: b.shlokas.filter(s =>
-      !q || `${s.lines ? s.lines.join(" ") : s.sanskrit} ${b.meaning || ""}`.toLowerCase().includes(q)
+      !q || `${(s.lines || []).join(" ")} ${b.meaning || ""}`.toLowerCase().includes(q)
     )
   })).filter(b => b.shlokas.length);
 
@@ -42,7 +42,7 @@ function render(blocks) {
           ${b.shlokas.map(s => `
             <div class="shloka" id="shloka-${s.number}">
               <span class="shloka-number">॥ ${hn(s.number)} ॥</span>
-              <div class="shloka-text">${(s.lines || [s.sanskrit || ""]).map(line => `<div>${esc(line)}</div>`).join("")}</div>
+              <div class="shloka-text">${(s.lines || []).map(line => `<div>${esc(line)}</div>`).join("")}</div>`).join("")}</div>
             </div>`).join("")}
         </div>
         ${showMeaning && b.meaning ? `
@@ -57,6 +57,8 @@ function render(blocks) {
       <div class="colophon-sanskrit">${esc(currentChapter.colophon.sanskrit)}</div>
       ${showMeaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${esc(currentChapter.colophon.meaning)}</div></div>` : ""}
     </article>` : "");
+
+  updateReadingFontSizes();
 }
 function renderChapters() {
   const box = document.getElementById("chapterList");
@@ -136,17 +138,27 @@ document.getElementById("meaningBtn").onclick = () => {
 
 function updateReadingFontSizes() {
   const isMobile = window.matchMedia("(max-width: 700px)").matches;
+
   const shlokaSizes = isMobile
     ? ["1.28rem", "1.42rem", "1.58rem", "1.76rem"]
     : ["1.28rem", "1.42rem", "1.58rem", "1.76rem"];
+
   const meaningSizes = isMobile
     ? ["21px", "23px", "25px", "27px"]
-    : ["1.14rem", "1.26rem", "1.40rem", "1.56rem"];
+    : ["18.24px", "20.16px", "22.40px", "24.96px"];
 
-  document.documentElement.style.setProperty("--reading", shlokaSizes[fontStep]);
-  document.documentElement.style.setProperty("--meaning-size", meaningSizes[fontStep]);
+  const shlokaSize = shlokaSizes[fontStep];
+  const meaningSize = meaningSizes[fontStep];
+
+  document.documentElement.style.setProperty("--reading", shlokaSize);
+  document.documentElement.style.setProperty("--meaning-size", meaningSize);
+
+  // Apply directly as well as through the CSS variable so desktop browsers
+  // cannot override the selected reading size with an older fixed rule.
+  document.querySelectorAll(".meaning").forEach(el => {
+    el.style.setProperty("font-size", meaningSize, "important");
+  });
 }
-
 document.getElementById("fontBtn").onclick = () => {
   fontStep = (fontStep + 1) % 4;
   updateReadingFontSizes();
