@@ -1,0 +1,30 @@
+{
+  "title": "हिन्दू ग्रन्थालय",
+  "subtitle": "हिन्दू धार्मिक ग्रन्थों का सरल डिजिटल पाठ",
+  "books": [
+    {
+      "id": "shivamahapurana",
+      "title": "शिवमहापुराण",
+      "status": "available",
+      "sections": [
+        "माहात्म्य"
+      ]
+    },
+    {
+      "id": "bhagavata-purana",
+      "title": "श्रीमद्भागवत महापुराण",
+      "status": "coming-soon",
+      "sections": [
+        "स्कन्ध"
+      ]
+    },
+    {
+      "id": "vishnu-purana",
+      "title": "विष्णु पुराण",
+      "status": "coming-soon",
+      "sections": [
+        "अंश"
+      ]
+    }
+  ]
+}
