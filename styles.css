@@ -62,3 +62,24 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
     line-height: 1.85;
   }
 }
+
+
+/* v11 devotional reading style */
+.verse-sanskrit,
+.shloka-text,
+.sanskrit,
+.verse-text {
+  font-weight: 600;
+  color: #3f342d;
+}
+
+/* Slightly stronger weight on mobile for comfortable reading */
+@media (max-width: 700px) {
+  .verse-sanskrit,
+  .shloka-text,
+  .sanskrit,
+  .verse-text {
+    font-weight: 600;
+    color: #3f342d;
+  }
+}
