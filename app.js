@@ -38,7 +38,7 @@ function render(blocks) {
           ${b.shlokas.map(s => `
             <div class="shloka" id="shloka-${s.number}">
               <span class="shloka-number">॥ ${hn(s.number)} ॥</span>
-              <div>${esc(s.sanskrit)}</div>
+              <div class="shloka-text">${esc(s.sanskrit)}</div>
             </div>`).join("")}
         </div>
         ${showMeaning && b.meaning ? `
