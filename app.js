@@ -22,7 +22,7 @@ function render(blocks) {
   const filtered = blocks.map(b => ({
     ...b,
     shlokas: b.shlokas.filter(s =>
-      !q || `${s.sanskrit} ${b.meaning || ""}`.toLowerCase().includes(q)
+      !q || `${s.lines ? s.lines.join(" ") : s.sanskrit} ${b.meaning || ""}`.toLowerCase().includes(q)
     )
   })).filter(b => b.shlokas.length);
 
@@ -30,15 +30,19 @@ function render(blocks) {
   document.getElementById("verseCount").textContent =
     q ? `${count} श्लोक मिले` : `इस अध्याय में ${count} श्लोक`;
 
-  document.getElementById("verseList").innerHTML = filtered.map(b => `
+  let lastSpeaker = null;
+  document.getElementById("verseList").innerHTML = filtered.map(b => {
+    const showSpeaker = b.speaker && b.speaker !== lastSpeaker;
+    if (b.speaker) lastSpeaker = b.speaker;
+    return `
     <article class="verse-group">
-      ${b.speaker ? `<div class="verse-top"><span class="speaker">${esc(b.speaker)}</span></div>` : ""}
+      ${showSpeaker ? `<div class="verse-top"><span class="speaker">${esc(b.speaker)}</span></div>` : ""}
       <div class="verse-body">
         <div class="sanskrit-group">
           ${b.shlokas.map(s => `
             <div class="shloka" id="shloka-${s.number}">
               <span class="shloka-number">॥ ${hn(s.number)} ॥</span>
-              <div class="shloka-text">${esc(s.sanskrit)}</div>
+              <div class="shloka-text">${(s.lines || [s.sanskrit || ""]).map(line => `<div>${esc(line)}</div>`).join("")}</div>
             </div>`).join("")}
         </div>
         ${showMeaning && b.meaning ? `
@@ -47,7 +51,8 @@ function render(blocks) {
             <div>${esc(b.meaning)}</div>
           </div>` : ""}
       </div>
-    </article>`).join("") + (currentChapter.colophon && !q ? `
+    </article>`;
+  }).join("") + (currentChapter.colophon && !q ? `
     <article class="colophon">
       <div class="colophon-sanskrit">${esc(currentChapter.colophon.sanskrit)}</div>
       ${showMeaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${esc(currentChapter.colophon.meaning)}</div></div>` : ""}
@@ -58,7 +63,7 @@ function renderChapters() {
   const chapters = book.sections[0].chapters;
   box.innerHTML = chapters.map(c => `
     <button class="chapter-link ${c.number === currentChapter.chapter ? "active":""}" data-id="${c.id}">
-      <span>${hn(c.number)}</span><span>अध्याय ${hn(c.number)}</span>
+      <span>अध्याय ${hn(c.number)}</span>
     </button>`).join("");
 
   box.querySelectorAll("button").forEach(b => b.onclick = async () => {
