@@ -25,3 +25,5 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
   .desktop-side-heading{display:none}
   .layout{display:block}.content{padding:22px 14px 55px}.toolbar{flex-direction:column}.reading-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toggle-btn,.small-btn{min-height:44px}.verse-body{padding:17px 15px 20px}.sanskrit-group{line-height:2.05}.meaning{font-size:1.08rem;line-height:2.0}.chapter-pager{flex-direction:column}.chapter-pager button{width:100%}.group-range{display:none}
 }
+
+.colophon{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-top:22px;padding:24px}.colophon-sanskrit{font-family:"Noto Serif Devanagari",serif;text-align:center;font-size:1.08rem;line-height:2}

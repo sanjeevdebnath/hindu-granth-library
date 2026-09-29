@@ -35,3 +35,18 @@ After connecting the repository to Cloudflare Pages through Git integration, com
 ## Publishing rights
 
 Before publishing a complete modern edition, translation, or commentary, verify that the particular material is public domain or that you have permission to reproduce it.
+
+
+### Content model
+
+The chapter data uses a flexible `blocks` model.
+
+Each block contains:
+- `shlokas`: one or more consecutive shlokas
+- `meaning`: the Hindi meaning corresponding to that exact block
+
+This supports both:
+- 1 shloka → 1 meaning
+- multiple shlokas → 1 combined meaning
+
+The source determines the grouping; the website never assumes a fixed pattern.
