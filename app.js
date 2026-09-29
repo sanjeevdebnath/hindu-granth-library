@@ -67,15 +67,40 @@ function renderChapters() {
     </button>`).join("");
 
   box.querySelectorAll("button").forEach(b => b.onclick = async () => {
-    const c = chapters.find(x => x.id === b.dataset.id);
-    currentChapter = await loadJSON(`books/shivamahapurana/mahatmya/${c.id}.json`);
-    document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
-    document.getElementById("chapterDescription").textContent = currentChapter.title;
-    renderChapters();
-    render(currentChapter.blocks);
-    closeSidebar();
-    window.scrollTo({top:0, behavior:"smooth"});
+    const index = chapters.findIndex(x => x.id === b.dataset.id);
+    await goToChapterByIndex(index);
   });
+}
+
+function updateChapterPager() {
+  const chapters = book.sections[0].chapters;
+  const index = chapters.findIndex(c => c.number === currentChapter.chapter);
+  const prevBtn = document.getElementById("prevChapterBtn");
+  const nextBtn = document.getElementById("nextChapterBtn");
+
+  prevBtn.disabled = index <= 0;
+  nextBtn.disabled = index < 0 || index >= chapters.length - 1;
+
+  prevBtn.textContent = index > 0 ? `← अध्याय ${hn(chapters[index - 1].number)}` : "← पिछला अध्याय";
+  nextBtn.textContent = index < chapters.length - 1 ? `अध्याय ${hn(chapters[index + 1].number)} →` : "अगला अध्याय →";
+
+  prevBtn.setAttribute("aria-label", index > 0 ? `अध्याय ${hn(chapters[index - 1].number)} पर जाएँ` : "पिछला अध्याय उपलब्ध नहीं");
+  nextBtn.setAttribute("aria-label", index < chapters.length - 1 ? `अध्याय ${hn(chapters[index + 1].number)} पर जाएँ` : "अगला अध्याय उपलब्ध नहीं");
+}
+
+async function goToChapterByIndex(index) {
+  const chapters = book.sections[0].chapters;
+  if (index < 0 || index >= chapters.length) return;
+
+  const c = chapters[index];
+  currentChapter = await loadJSON(`books/shivamahapurana/mahatmya/${c.id}.json`);
+  document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
+  document.getElementById("chapterDescription").textContent = currentChapter.title;
+  renderChapters();
+  render(currentChapter.blocks);
+  updateChapterPager();
+  closeSidebar();
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
 function openSidebar() {
@@ -98,6 +123,7 @@ async function init() {
   document.getElementById("chapterDescription").textContent = currentChapter.title;
   renderChapters();
   render(currentChapter.blocks);
+  updateChapterPager();
 }
 
 document.getElementById("searchInput").oninput = () => render(currentChapter.blocks);
@@ -123,6 +149,18 @@ document.getElementById("closeMenuBtn").onclick = closeSidebar;
 
 document.getElementById("tocBtn").onclick = () =>
   document.getElementById("verseList").scrollIntoView({behavior:"smooth"});
+
+document.getElementById("prevChapterBtn").onclick = async () => {
+  const chapters = book.sections[0].chapters;
+  const index = chapters.findIndex(c => c.number === currentChapter.chapter);
+  if (index > 0) await goToChapterByIndex(index - 1);
+};
+
+document.getElementById("nextChapterBtn").onclick = async () => {
+  const chapters = book.sections[0].chapters;
+  const index = chapters.findIndex(c => c.number === currentChapter.chapter);
+  if (index >= 0 && index < chapters.length - 1) await goToChapterByIndex(index + 1);
+};
 
 init().catch(e =>
   document.getElementById("verseList").innerHTML =
