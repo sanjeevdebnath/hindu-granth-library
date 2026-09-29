@@ -43,7 +43,7 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
 .meaning,
 .verse-meaning,
 .hindi-meaning {
-  font-size: 1.08em;
+  font-size: var(--meaning-size, 1.14rem) !important;
   line-height: 1.8;
 }
 
