@@ -134,10 +134,26 @@ document.getElementById("meaningBtn").onclick = () => {
   render(currentChapter.blocks);
 };
 
+function updateReadingFontSizes() {
+  const isMobile = window.matchMedia("(max-width: 700px)").matches;
+  const shlokaSizes = isMobile
+    ? ["1.28rem", "1.42rem", "1.58rem", "1.76rem"]
+    : ["1.28rem", "1.42rem", "1.58rem", "1.76rem"];
+  const meaningSizes = isMobile
+    ? ["21px", "23px", "25px", "27px"]
+    : ["1.14rem", "1.26rem", "1.40rem", "1.56rem"];
+
+  document.documentElement.style.setProperty("--reading", shlokaSizes[fontStep]);
+  document.documentElement.style.setProperty("--meaning-size", meaningSizes[fontStep]);
+}
+
 document.getElementById("fontBtn").onclick = () => {
   fontStep = (fontStep + 1) % 4;
-  document.documentElement.style.setProperty("--reading", ["1.28rem","1.42rem","1.58rem","1.76rem"][fontStep]);
+  updateReadingFontSizes();
 };
+
+window.addEventListener("resize", updateReadingFontSizes);
+updateReadingFontSizes();
 
 document.getElementById("menuBtn").onclick = () => {
   const sidebar = document.getElementById("sidebar");

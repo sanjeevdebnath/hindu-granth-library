@@ -54,3 +54,7 @@ The source determines the grouping; the website never assumes a fixed pattern.
 ### Sanskrit line breaks
 
 Each shloka stores explicit `lines` so the reading layout can preserve the line structure of the printed source instead of collapsing every shloka into one browser line.
+
+
+### v15 UI fix
+The A / A+ reading control now increases both Sanskrit shloka text and Hindi meaning text, with mobile and desktop sizes tuned separately.
