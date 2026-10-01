@@ -155,3 +155,36 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
   .chapter-link{min-height:52px;font-size:1rem}
   .nav-chapters{padding-left:8px}
 }
+
+
+/* v30: nested Rudra Samhita khanda navigation */
+.nav-nested{
+  margin:10px 0 10px 18px;
+}
+.nav-nested-title.nav-collapse-btn{
+  min-height:48px;
+  font-size:.92rem;
+  font-weight:700;
+  color:var(--muted);
+  background:#f7efe6;
+  padding:8px 12px;
+}
+.nav-nested-title.nav-collapse-btn .nav-toggle-icon{
+  width:27px;
+  height:27px;
+  flex-basis:27px;
+  font-size:1.2rem;
+}
+.nav-nested .nav-collapse-content{
+  padding:5px 0 2px;
+}
+.nav-nested .nav-nested{
+  margin-left:14px;
+}
+@media(max-width:760px){
+  .nav-nested{margin-left:10px}
+  .nav-nested-title.nav-collapse-btn{
+    min-height:52px;
+    font-size:.95rem;
+  }
+}
