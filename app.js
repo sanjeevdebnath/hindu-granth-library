@@ -53,6 +53,21 @@ function ensureCurrentNavOpen() {
 }
 
 function toggleNavSection(key) {
+  const group = navigation.find(g => g.id === key);
+
+  // Top-level menus behave as an accordion: opening one closes all
+  // other top-level groups. Nested Samhitas remain independently collapsible.
+  if (group) {
+    const willOpen = isNavCollapsed(key);
+    for (const g of navigation) {
+      collapsedNav[g.id] = true;
+    }
+    collapsedNav[key] = !willOpen;
+    saveNavState();
+    renderChapters();
+    return;
+  }
+
   collapsedNav[key] = !isNavCollapsed(key);
   saveNavState();
   renderChapters();
