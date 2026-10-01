@@ -124,8 +124,8 @@ function renderChapters() {
     } else if (group.type === "khanda") {
       html += `<div class="nav-group nav-khanda ${groupCollapsed ? "is-collapsed" : ""}">
         <button class="nav-collapse-btn nav-khanda-title" data-nav-key="${esc(group.id)}" aria-expanded="${!groupCollapsed}">
-          <span class="nav-chevron" aria-hidden="true">⌄</span>
-          <span>${esc(group.title)}</span>
+          <span class="nav-toggle-icon" aria-hidden="true">${groupCollapsed ? "+" : "−"}</span>
+          <span class="nav-header-text">${esc(group.title)}</span>
         </button>
         <div class="nav-collapse-content" ${groupCollapsed ? "hidden" : ""}>
           ${(group.sections || []).map(section => {
