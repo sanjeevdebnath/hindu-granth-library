@@ -78,6 +78,12 @@
               "number": 3,
               "title": "साध्य-साधन आदिका विचार",
               "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-03.json"
+            },
+            {
+              "id": "chapter-04",
+              "number": 4,
+              "title": "श्रवण, कीर्तन और मनन—इन तीन साधनोंकी श्रेष्ठताका प्रतिपादन",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-04.json"
             }
           ]
         }
