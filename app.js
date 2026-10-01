@@ -115,7 +115,6 @@ function chapterButton(c, groupId, groupTitle, section) {
   const active = currentNav && currentNav.path === c.path;
   return `<button class="chapter-link ${active ? "active" : ""}" data-path="${esc(c.path)}">
     <span class="chapter-link-number">अध्याय ${hn(c.number)}</span>
-    <span class="chapter-link-title">${esc(c.title)}</span>
   </button>`;
 }
 
