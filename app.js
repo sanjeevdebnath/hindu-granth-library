@@ -21,17 +21,36 @@ function esc(s = "") {
 
 function buildFlatNavigation() {
   const items = [];
+
+  function walkSections(sections, group, parentIds = [], parentTitles = []) {
+    for (const section of sections || []) {
+      const ids = [...parentIds, section.id];
+      const titles = [...parentTitles, section.title];
+
+      for (const c of section.chapters || []) {
+        items.push({
+          ...c,
+          groupId: group.id,
+          groupTitle: group.title,
+          sectionId: section.id,
+          sectionTitle: section.title,
+          sectionIds: ids,
+          sectionTitles: titles,
+          parentType: "khanda"
+        });
+      }
+
+      if (section.sections?.length) walkSections(section.sections, group, ids, titles);
+    }
+  }
+
   for (const group of navigation) {
     if (group.type === "section") {
       for (const c of group.chapters || []) {
         items.push({...c, groupId: group.id, groupTitle: group.title, parentType: "section"});
       }
     } else if (group.type === "khanda") {
-      for (const section of group.sections || []) {
-        for (const c of section.chapters || []) {
-          items.push({...c, groupId: group.id, groupTitle: group.title, sectionId: section.id, sectionTitle: section.title, parentType: "khanda"});
-        }
-      }
+      walkSections(group.sections, group);
     }
   }
   return items;
@@ -48,7 +67,9 @@ function saveNavState() {
 function ensureCurrentNavOpen() {
   if (!currentNav) return;
   collapsedNav[currentNav.groupId] = false;
-  if (currentNav.sectionId) collapsedNav[currentNav.sectionId] = false;
+  for (const id of currentNav.sectionIds || (currentNav.sectionId ? [currentNav.sectionId] : [])) {
+    collapsedNav[id] = false;
+  }
   saveNavState();
 }
 
@@ -124,8 +145,34 @@ function renderChapters() {
   const box = document.getElementById("chapterList");
   let html = "";
 
+  function renderSection(section, group, level = 0) {
+    const sectionCollapsed = isNavCollapsed(section.id);
+    const chapters = (section.chapters || []).map(c =>
+      chapterButton(c, group.id, group.title, section)
+    ).join("");
+    const childSections = (section.sections || []).map(child =>
+      renderSection(child, group, level + 1)
+    ).join("");
+
+    const titleClass = level === 0 ? "nav-samhita-title" : "nav-nested-title";
+    const wrapperClass = level === 0 ? "nav-samhita" : "nav-nested";
+
+    return `
+      <div class="${wrapperClass} ${sectionCollapsed ? "is-collapsed" : ""}">
+        <button class="nav-collapse-btn ${titleClass}" data-nav-key="${esc(section.id)}" aria-expanded="${!sectionCollapsed}">
+          <span class="nav-toggle-icon" aria-hidden="true">${sectionCollapsed ? "+" : "−"}</span>
+          <span class="nav-header-text">${esc(section.title)}</span>
+        </button>
+        <div class="nav-collapse-content" ${sectionCollapsed ? "hidden" : ""}>
+          ${chapters ? `<div class="nav-chapters">${chapters}</div>` : ""}
+          ${childSections}
+        </div>
+      </div>`;
+  }
+
   for (const group of navigation) {
     const groupCollapsed = isNavCollapsed(group.id);
+
     if (group.type === "section") {
       html += `<div class="nav-group nav-group-section ${groupCollapsed ? "is-collapsed" : ""}">
         <button class="nav-collapse-btn nav-group-title" data-nav-key="${esc(group.id)}" aria-expanded="${!groupCollapsed}">
@@ -143,19 +190,7 @@ function renderChapters() {
           <span class="nav-header-text">${esc(group.title)}</span>
         </button>
         <div class="nav-collapse-content" ${groupCollapsed ? "hidden" : ""}>
-          ${(group.sections || []).map(section => {
-            const sectionCollapsed = isNavCollapsed(section.id);
-            return `
-            <div class="nav-samhita ${sectionCollapsed ? "is-collapsed" : ""}">
-              <button class="nav-collapse-btn nav-samhita-title" data-nav-key="${esc(section.id)}" aria-expanded="${!sectionCollapsed}">
-                <span class="nav-toggle-icon" aria-hidden="true">${sectionCollapsed ? "+" : "−"}</span>
-                <span class="nav-header-text">${esc(section.title)}</span>
-              </button>
-              <div class="nav-collapse-content" ${sectionCollapsed ? "hidden" : ""}>
-                <div class="nav-chapters">${(section.chapters || []).map(c => chapterButton(c, group.id, group.title, section)).join("")}</div>
-              </div>
-            </div>`;
-          }).join("")}
+          ${(group.sections || []).map(section => renderSection(section, group)).join("")}
         </div>
       </div>`;
     }
@@ -184,11 +219,11 @@ function updateBreadcrumbs() {
   if (currentNav?.parentType === "section") {
     parts.push(currentNav.groupTitle);
   } else if (currentNav?.parentType === "khanda") {
-    parts.push(currentNav.groupTitle, currentNav.sectionTitle);
+    parts.push(currentNav.groupTitle, ...(currentNav.sectionTitles || [currentNav.sectionTitle]).filter(Boolean));
   }
   document.getElementById("breadcrumbs").textContent = parts.join(" › ");
   document.getElementById("chapterEyebrow").textContent = currentNav?.parentType === "khanda"
-    ? currentNav.sectionTitle
+    ? (currentNav.sectionTitles?.at(-1) || currentNav.sectionTitle || "")
     : currentNav?.groupTitle || "";
 }
 
@@ -242,11 +277,16 @@ async function init() {
   // Every fresh page load starts with the entire navigation collapsed.
   // This keeps the opening screen compact and predictable for all readers.
   collapsedNav = {};
+  function collapseSections(sections) {
+    for (const section of sections || []) {
+      collapsedNav[section.id] = true;
+      collapseSections(section.sections);
+    }
+  }
+
   for (const group of navigation) {
     collapsedNav[group.id] = true;
-    for (const section of group.sections || []) {
-      collapsedNav[section.id] = true;
-    }
+    collapseSections(group.sections);
   }
   saveNavState();
 
