@@ -4,6 +4,7 @@ let currentNav = null;
 let navigation = [];
 let showMeaning = true;
 let fontStep = 0;
+let collapsedNav = JSON.parse(localStorage.getItem("hinduGranthalayaCollapsedNav") || "{}");
 
 const digits = ["०","१","२","३","४","५","६","७","८","९"];
 const hn = n => String(n).split("").map(x => digits[Number(x)]).join("");
@@ -34,6 +35,27 @@ function buildFlatNavigation() {
     }
   }
   return items;
+}
+
+function isNavCollapsed(key) {
+  return collapsedNav[key] === true;
+}
+
+function saveNavState() {
+  localStorage.setItem("hinduGranthalayaCollapsedNav", JSON.stringify(collapsedNav));
+}
+
+function ensureCurrentNavOpen() {
+  if (!currentNav) return;
+  collapsedNav[currentNav.groupId] = false;
+  if (currentNav.sectionId) collapsedNav[currentNav.sectionId] = false;
+  saveNavState();
+}
+
+function toggleNavSection(key) {
+  collapsedNav[key] = !isNavCollapsed(key);
+  saveNavState();
+  renderChapters();
 }
 
 function render(blocks) {
@@ -88,24 +110,48 @@ function renderChapters() {
   let html = "";
 
   for (const group of navigation) {
+    const groupCollapsed = isNavCollapsed(group.id);
     if (group.type === "section") {
-      html += `<div class="nav-group nav-group-section">
-        <div class="nav-group-title">${esc(group.title)}</div>
-        <div class="nav-chapters">${(group.chapters || []).map(c => chapterButton(c, group.id, group.title, null)).join("")}</div>
+      html += `<div class="nav-group nav-group-section ${groupCollapsed ? "is-collapsed" : ""}">
+        <button class="nav-collapse-btn nav-group-title" data-nav-key="${esc(group.id)}" aria-expanded="${!groupCollapsed}">
+          <span class="nav-chevron" aria-hidden="true">⌄</span>
+          <span>${esc(group.title)}</span>
+        </button>
+        <div class="nav-collapse-content" ${groupCollapsed ? "hidden" : ""}>
+          <div class="nav-chapters">${(group.chapters || []).map(c => chapterButton(c, group.id, group.title, null)).join("")}</div>
+        </div>
       </div>`;
     } else if (group.type === "khanda") {
-      html += `<div class="nav-group nav-khanda">
-        <div class="nav-khanda-title">${esc(group.title)}</div>
-        ${(group.sections || []).map(section => `
-          <div class="nav-samhita">
-            <div class="nav-samhita-title">${esc(section.title)}</div>
-            <div class="nav-chapters">${(section.chapters || []).map(c => chapterButton(c, group.id, group.title, section)).join("")}</div>
-          </div>`).join("")}
+      html += `<div class="nav-group nav-khanda ${groupCollapsed ? "is-collapsed" : ""}">
+        <button class="nav-collapse-btn nav-khanda-title" data-nav-key="${esc(group.id)}" aria-expanded="${!groupCollapsed}">
+          <span class="nav-chevron" aria-hidden="true">⌄</span>
+          <span>${esc(group.title)}</span>
+        </button>
+        <div class="nav-collapse-content" ${groupCollapsed ? "hidden" : ""}>
+          ${(group.sections || []).map(section => {
+            const sectionCollapsed = isNavCollapsed(section.id);
+            return `
+            <div class="nav-samhita ${sectionCollapsed ? "is-collapsed" : ""}">
+              <button class="nav-collapse-btn nav-samhita-title" data-nav-key="${esc(section.id)}" aria-expanded="${!sectionCollapsed}">
+                <span class="nav-chevron" aria-hidden="true">⌄</span>
+                <span>${esc(section.title)}</span>
+              </button>
+              <div class="nav-collapse-content" ${sectionCollapsed ? "hidden" : ""}>
+                <div class="nav-chapters">${(section.chapters || []).map(c => chapterButton(c, group.id, group.title, section)).join("")}</div>
+              </div>
+            </div>`;
+          }).join("")}
+        </div>
       </div>`;
     }
   }
 
   box.innerHTML = html;
+
+  box.querySelectorAll(".nav-collapse-btn").forEach(b => {
+    b.onclick = () => toggleNavSection(b.dataset.navKey);
+  });
+
   box.querySelectorAll("button[data-path]").forEach(b => b.onclick = async () => {
     await goToChapter(b.dataset.path);
   });
@@ -149,6 +195,7 @@ async function goToChapter(path) {
   if (!nav) return;
 
   currentNav = nav;
+  ensureCurrentNavOpen();
   currentChapter = await loadJSON(nav.path);
   document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
   document.getElementById("chapterOpeningHeading").textContent = currentChapter.opening_heading || "";
