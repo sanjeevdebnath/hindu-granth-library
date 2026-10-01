@@ -2,49 +2,86 @@
   "id": "shivamahapurana",
   "title": "शिवमहापुराण",
   "description": "शिवमहापुराण का अध्याय-दर-अध्याय डिजिटल पाठ।",
-  "sections": [
+  "navigation": [
     {
+      "type": "section",
       "id": "mahatmya",
       "title": "माहात्म्य",
       "chapters": [
         {
           "id": "chapter-01",
           "number": 1,
-          "title": "शौनकजीके साधनविषयक प्रश्न करनेपर सूतजीका उन्हें शिवमहापुराणकी महिमा सुनाना"
+          "title": "शौनकजीके साधनविषयक प्रश्न करनेपर सूतजीका उन्हें शिवमहापुराणकी महिमा सुनाना",
+          "path": "books/shivamahapurana/mahatmya/chapter-01.json"
         },
         {
           "id": "chapter-02",
           "number": 2,
-          "title": "शिवपुराणके श्रवणसे देवराजको शिवलोककी प्राप्ति"
+          "title": "शिवपुराणके श्रवणसे देवराजको शिवलोककी प्राप्ति",
+          "path": "books/shivamahapurana/mahatmya/chapter-02.json"
         },
         {
           "id": "chapter-03",
           "number": 3,
-          "title": "चञ्चुलाका पापसे भय एवं संसारसे वैराग्य"
+          "title": "चञ्चुलाका पापसे भय एवं संसारसे वैराग्य",
+          "path": "books/shivamahapurana/mahatmya/chapter-03.json"
         },
         {
           "id": "chapter-04",
           "number": 4,
-          "title": "चंचुलाकी प्रार्थनासे ब्राह्मणका उसे पूरा शिवपुराण सुनाना और समयानुसार शरीर छोड़कर शिवलोकमें जा चंचुलाका पार्वतीजीकी सखी होना"
+          "title": "चंचुलाकी प्रार्थनासे ब्राह्मणका उसे पूरा शिवपुराण सुनाना और समयानुसार शरीर छोड़कर शिवलोकमें जा चंचुलाका पार्वतीजीकी सखी होना",
+          "path": "books/shivamahapurana/mahatmya/chapter-04.json"
         },
         {
           "id": "chapter-05",
           "number": 5,
-          "title": "चंचुलाके प्रयत्नसे पार्वतीजीकी आज्ञा पाकर तुम्बुरुका विन्ध्यपर्वतपर शिवपुराणकी कथा सुनाकर बिन्दुगका पिशाचयोनिसे उद्धार करना तथा उन दोनों दम्पतीका शिवधाममें सुखी होना"
+          "title": "चंचुलाके प्रयत्नसे पार्वतीजीकी आज्ञा पाकर तुम्बुरुका विन्ध्यपर्वतपर शिवपुराणकी कथा सुनाकर बिन्दुगका पिशाचयोनिसे उद्धार करना तथा उन दोनों दम्पतीका शिवधाममें सुखी होना",
+          "path": "books/shivamahapurana/mahatmya/chapter-05.json"
         },
         {
           "id": "chapter-06",
           "number": 6,
-          "title": "शिवपुराणके श्रवणकी विधि"
+          "title": "शिवपुराणके श्रवणकी विधि",
+          "path": "books/shivamahapurana/mahatmya/chapter-06.json"
         },
         {
           "id": "chapter-07",
           "number": 7,
           "title": "श्रोताओंके पालन करनेयोग्य नियमोंका वर्णन",
-          "opening_heading": "अथ सप्तमोऽध्यायः",
-          "opening_subtitle": "श्रोताओंके पालन करनेयोग्य नियमोंका वर्णन"
+          "path": "books/shivamahapurana/mahatmya/chapter-07.json"
         }
       ]
+    },
+    {
+      "type": "khanda",
+      "id": "pratham-khanda-purvardha",
+      "title": "प्रथम-खण्ड — पूर्वार्ध",
+      "sections": [
+        {
+          "id": "vidyeshvara-samhita",
+          "title": "प्रथमा विद्येश्वरसंहिता",
+          "chapters": [
+            {
+              "id": "chapter-01",
+              "number": 1,
+              "title": "प्रयागमें सूतजीसे मुनियोंका शीघ्र पापनाश करनेवाले साधनके विषयमें प्रश्न",
+              "path": "books/shivamahapurana/vidyeshvara-samhita/chapter-01.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "khanda",
+      "id": "pratham-khanda-uttarardha",
+      "title": "प्रथम-खण्ड — उत्तरार्ध",
+      "sections": []
+    },
+    {
+      "type": "khanda",
+      "id": "dvitiya-khanda",
+      "title": "द्वितीय-खण्ड",
+      "sections": []
     }
   ]
 }
