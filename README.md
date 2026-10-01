@@ -4,7 +4,7 @@ A scalable static digital library for Hindu scriptures, designed for simple chap
 
 ## Current project
 
-The current published reader contains the **शिवमहापुराण → माहात्म्य** section through Chapter 6.
+The current published reader contains the **शिवमहापुराण → माहात्म्य** section through Chapter 7.
 
 ### शिवमहापुराण — माहात्म्य chapters
 
@@ -16,9 +16,11 @@ The current published reader contains the **शिवमहापुराण �
 | ४ | चंचुलाकी प्रार्थनासे ब्राह्मणका उसे पूरा शिवपुराण सुनाना और समयानुसार शरीर छोड़कर शिवलोकमें जा चंचुलाका पार्वतीजीकी सखी होना | 50 श्लोक |
 | ५ | चंचुलाके प्रयत्नसे पार्वतीजीकी आज्ञा पाकर तुम्बुरुका विन्ध्यपर्वतपर शिवपुराणकी कथा सुनाकर बिन्दुगका पिशाचयोनिसे उद्धार करना तथा उन दोनों दम्पतीका शिवधाममें सुखी होना | 60 श्लोक |
 | ६ | शिवपुराणके श्रवणकी विधि | 65 श्लोक |
+| ७ | श्रोताओंके पालन करनेयोग्य नियमोंका वर्णन | 50 श्लोक |
 
-**वर्तमान परियोजना में अध्याय:** 6  
-**अध्याय 6:** 65 श्लोक, 32 अर्थ-खंड, तथा पूर्ण अध्याय-समापन (colophon) सहित।
+**वर्तमान परियोजना में अध्याय:** 7  
+**अध्याय 6:** 65 श्लोक, 32 अर्थ-खंड, तथा पूर्ण अध्याय-समापन (colophon) सहित।  
+**अध्याय 7:** 50 श्लोक, 26 अर्थ-खंड, मुद्रित आरम्भिक शीर्षक, तथा पूर्ण अध्याय-समापन (colophon) सहित।
 
 > अध्याय 1–3 के पुराने JSON डेटा की श्लोक-गिनती को यहाँ जानबूझकर दोहराया नहीं गया है, क्योंकि उन अध्यायों के डेटा पर आगे भी स्रोत-पाठ के साथ मिलान/सुधार किया जा रहा है। README केवल उन अध्यायों की वर्तमान परियोजना-स्थिति और विषय-विवरण दर्ज करता है।
 
@@ -60,6 +62,9 @@ Each chapter contains:
 - `section`
 - `chapter`
 - `title`
+- `opening_heading` (when present in the printed chapter opening)
+- `opening_subtitle` (when present in the printed chapter opening)
+- `formal_title` (when a formal colophon title is available)
 - `source_note`
 - `blocks`
 - `colophon`
@@ -91,6 +96,12 @@ Each shloka stores explicit `lines` rather than relying on a browser-generated l
 This is intentional because a printed shloka may occupy two, three, or four lines depending on the source edition. The reader should preserve the supplied printed line structure.
 
 There is no duplicate `sanskrit` field; `lines` is the canonical Sanskrit display data.
+
+## Chapter 7 notes
+
+Chapter 7 opens in the supplied printed pages with **अथ सप्तमोऽध्यायः** and the descriptive subtitle **श्रोताओंके पालन करनेयोग्य नियमोंका वर्णन**. The formal colophon identifies it as **श्रीशिवपुराणश्रवणव्रतिनां विधिनिषेधपुस्तकवक्तृपूजनवर्णनं नाम सप्तमोऽध्यायः**.
+
+Chapter 7 contains 50 shlokas and 26 grouped Hindi-meaning blocks. The transcription is based primarily on the user's supplied Gita Press page images. The printed wording is retained where it differs from online transcriptions. The final two shlokas are preserved with the multi-line printed layout, followed by the chapter colophon and the closing note **॥ श्रीशिवमहापुराणमाहात्म्य पूर्ण हुआ॥**.
 
 ## Chapter 6 notes
 
@@ -142,5 +153,5 @@ Ancient scriptural works may be public domain, but a particular modern printed e
 
 ## Project status
 
-**Current:** Shivamahapurana → माहात्म्य → Chapters 1–6 available in the project data.  
+**Current:** Shivamahapurana → माहात्म्य → Chapters 1–7 available in the project data.  
 **Next:** Continue adding later chapters and additional granthas while keeping the same structured data model.

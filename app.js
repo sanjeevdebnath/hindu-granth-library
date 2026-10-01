@@ -99,7 +99,8 @@ async function goToChapterByIndex(index) {
   const c = chapters[index];
   currentChapter = await loadJSON(`books/shivamahapurana/mahatmya/${c.id}.json`);
   document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
-  document.getElementById("chapterDescription").textContent = currentChapter.title;
+  document.getElementById("chapterOpeningHeading").textContent = currentChapter.opening_heading || "";
+  document.getElementById("chapterDescription").textContent = currentChapter.opening_subtitle || currentChapter.title;
   renderChapters();
   render(currentChapter.blocks);
   updateChapterPager();
@@ -124,7 +125,8 @@ async function init() {
   currentChapter = await loadJSON("books/shivamahapurana/mahatmya/chapter-01.json");
   document.getElementById("bookTitle").textContent = book.title;
   document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
-  document.getElementById("chapterDescription").textContent = currentChapter.title;
+  document.getElementById("chapterOpeningHeading").textContent = currentChapter.opening_heading || "";
+  document.getElementById("chapterDescription").textContent = currentChapter.opening_subtitle || currentChapter.title;
   renderChapters();
   render(currentChapter.blocks);
   updateChapterPager();
