@@ -72,6 +72,12 @@
               "number": 2,
               "title": "शिवपुराणका माहात्म्य एवं परिचय",
               "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-02.json"
+            },
+            {
+              "id": "chapter-03",
+              "number": 3,
+              "title": "साध्य-साधन आदिका विचार",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-03.json"
             }
           ]
         }
