@@ -204,13 +204,13 @@ function updateChapterPager() {
   nextBtn.textContent = index >= 0 && index < flat.length - 1 ? `अध्याय ${hn(flat[index + 1].number)} →` : "अगला अध्याय →";
 }
 
-async function goToChapter(path) {
+async function goToChapter(path, openParents = true) {
   const flat = buildFlatNavigation();
   const nav = flat.find(c => c.path === path);
   if (!nav) return;
 
   currentNav = nav;
-  ensureCurrentNavOpen();
+  if (openParents) ensureCurrentNavOpen();
   currentChapter = await loadJSON(nav.path);
   document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
   document.getElementById("chapterOpeningHeading").textContent = currentChapter.opening_heading || "";
@@ -239,22 +239,19 @@ async function init() {
   navigation = book.navigation || [];
   document.getElementById("bookTitle").textContent = book.title;
 
-  // First visit: keep the menu compact. The current group/section is
-  // automatically opened by goToChapter(), while the rest stay collapsed.
-  const savedNavState = localStorage.getItem("hinduGranthalayaCollapsedNav");
-  if (!savedNavState) {
-    collapsedNav = {};
-    for (const group of navigation) {
-      collapsedNav[group.id] = true;
-      for (const section of group.sections || []) {
-        collapsedNav[section.id] = true;
-      }
+  // Every fresh page load starts with the entire navigation collapsed.
+  // This keeps the opening screen compact and predictable for all readers.
+  collapsedNav = {};
+  for (const group of navigation) {
+    collapsedNav[group.id] = true;
+    for (const section of group.sections || []) {
+      collapsedNav[section.id] = true;
     }
-    saveNavState();
   }
+  saveNavState();
 
   const flat = buildFlatNavigation();
-  await goToChapter(flat[0].path);
+  await goToChapter(flat[0].path, false);
 }
 
 document.getElementById("searchInput").oninput = () => render(currentChapter.blocks);
