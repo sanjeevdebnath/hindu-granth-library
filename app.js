@@ -223,6 +223,21 @@ async function init() {
   book = await loadJSON("books/shivamahapurana/metadata.json");
   navigation = book.navigation || [];
   document.getElementById("bookTitle").textContent = book.title;
+
+  // First visit: keep the menu compact. The current group/section is
+  // automatically opened by goToChapter(), while the rest stay collapsed.
+  const savedNavState = localStorage.getItem("hinduGranthalayaCollapsedNav");
+  if (!savedNavState) {
+    collapsedNav = {};
+    for (const group of navigation) {
+      collapsedNav[group.id] = true;
+      for (const section of group.sections || []) {
+        collapsedNav[section.id] = true;
+      }
+    }
+    saveNavState();
+  }
+
   const flat = buildFlatNavigation();
   await goToChapter(flat[0].path);
 }
