@@ -114,8 +114,8 @@ function renderChapters() {
     if (group.type === "section") {
       html += `<div class="nav-group nav-group-section ${groupCollapsed ? "is-collapsed" : ""}">
         <button class="nav-collapse-btn nav-group-title" data-nav-key="${esc(group.id)}" aria-expanded="${!groupCollapsed}">
-          <span class="nav-chevron" aria-hidden="true">⌄</span>
-          <span>${esc(group.title)}</span>
+          <span class="nav-toggle-icon" aria-hidden="true">${groupCollapsed ? "+" : "−"}</span>
+          <span class="nav-header-text">${esc(group.title)}</span>
         </button>
         <div class="nav-collapse-content" ${groupCollapsed ? "hidden" : ""}>
           <div class="nav-chapters">${(group.chapters || []).map(c => chapterButton(c, group.id, group.title, null)).join("")}</div>
@@ -133,8 +133,8 @@ function renderChapters() {
             return `
             <div class="nav-samhita ${sectionCollapsed ? "is-collapsed" : ""}">
               <button class="nav-collapse-btn nav-samhita-title" data-nav-key="${esc(section.id)}" aria-expanded="${!sectionCollapsed}">
-                <span class="nav-chevron" aria-hidden="true">⌄</span>
-                <span>${esc(section.title)}</span>
+                <span class="nav-toggle-icon" aria-hidden="true">${sectionCollapsed ? "+" : "−"}</span>
+                <span class="nav-header-text">${esc(section.title)}</span>
               </button>
               <div class="nav-collapse-content" ${sectionCollapsed ? "hidden" : ""}>
                 <div class="nav-chapters">${(section.chapters || []).map(c => chapterButton(c, group.id, group.title, section)).join("")}</div>
