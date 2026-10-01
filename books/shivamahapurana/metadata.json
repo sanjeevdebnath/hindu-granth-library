@@ -86,6 +86,37 @@
               "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-04.json"
             }
           ]
+        },
+        {
+          "id": "rudra-samhita",
+          "title": "द्वितीया रुद्रसंहिता",
+          "sections": [
+            {
+              "id": "srishti-khanda",
+              "title": "१ — सृष्टिखण्ड",
+              "chapters": []
+            },
+            {
+              "id": "sati-khanda",
+              "title": "२ — सतीखण्ड",
+              "chapters": []
+            },
+            {
+              "id": "parvati-khanda",
+              "title": "३ — पार्वतीखण्ड",
+              "chapters": []
+            },
+            {
+              "id": "kumar-khanda",
+              "title": "४ — कुमारखण्ड",
+              "chapters": []
+            },
+            {
+              "id": "yuddha-khanda",
+              "title": "५ — युद्धखण्ड",
+              "chapters": []
+            }
+          ]
         }
       ]
     },
