@@ -84,6 +84,132 @@
               "number": 4,
               "title": "श्रवण, कीर्तन और मनन—इन तीन साधनोंकी श्रेष्ठताका प्रतिपादन",
               "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-04.json"
+            },
+            {
+              "id": "chapter-05",
+              "number": 5,
+              "title": "शिवलिङ्गमहिमावर्णन",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-05.json"
+            },
+            {
+              "id": "chapter-06",
+              "number": 6,
+              "title": "देवताओंकी कैलासयात्राका वर्णन",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-06.json"
+            },
+            {
+              "id": "chapter-07",
+              "number": 7,
+              "title": "समरे शम्भोरनलस्तम्भाविष्कारः",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-07.json"
+            },
+            {
+              "id": "chapter-08",
+              "number": 8,
+              "title": "ब्रह्माके ऊपर शिवका अनुग्रह",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-08.json"
+            },
+            {
+              "id": "chapter-09",
+              "number": 9,
+              "title": "शिवके महेश्वर नामका प्रतिपादन",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-09.json"
+            },
+            {
+              "id": "chapter-10",
+              "number": 10,
+              "title": "ब्रह्मा-विष्णुको पाँच कृत्य और ओंकार मन्त्रका उपदेश तथा शिवका अन्तर्धान",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-10.json"
+            },
+            {
+              "id": "chapter-11",
+              "number": 11,
+              "title": "शिवलिङ्गकी स्थापना, पूजन और दानकी विधि",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-11.json"
+            },
+            {
+              "id": "chapter-12",
+              "number": 12,
+              "title": "शिवक्षेत्रका वर्णन",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-12.json"
+            },
+            {
+              "id": "chapter-13",
+              "number": 13,
+              "title": "सदाचारका वर्णन",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-13.json"
+            },
+            {
+              "id": "chapter-14",
+              "number": 14,
+              "title": "अग्नियज्ञ आदि का वर्णन",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-14.json"
+            },
+            {
+              "id": "chapter-15",
+              "number": 15,
+              "title": "देवयज्ञादिमें देश, काल और पात्रका विचार",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-15.json"
+            },
+            {
+              "id": "chapter-16",
+              "number": 16,
+              "title": "पार्थिव देवप्रतिमाओंकी पूजनविधि और उसके फल",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-16.json"
+            },
+            {
+              "id": "chapter-17",
+              "number": 17,
+              "title": "प्रणव और पंचाक्षर मन्त्रका माहात्म्य",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-17.json"
+            },
+            {
+              "id": "chapter-18",
+              "number": 18,
+              "title": "बन्ध-मोक्षका स्वरूप और शिवलिङ्गका माहात्म्य",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-18.json"
+            },
+            {
+              "id": "chapter-19",
+              "number": 19,
+              "title": "पार्थिव शिवलिङ्ग-पूजनका माहात्म्य और भस्मके प्रकार",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-19.json"
+            },
+            {
+              "id": "chapter-20",
+              "number": 20,
+              "title": "वैदिक विधिसे पार्थिव-पूजनकी विधि",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-20.json"
+            },
+            {
+              "id": "chapter-21",
+              "number": 21,
+              "title": "कामनाके अनुसार शिवलिङ्गोंकी संख्या और पूजनविधान",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-21.json"
+            },
+            {
+              "id": "chapter-22",
+              "number": 22,
+              "title": "शिवनैवेद्यका निर्णय और बिल्वका माहात्म्य",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-22.json"
+            },
+            {
+              "id": "chapter-23",
+              "number": 23,
+              "title": "शिवनामका माहात्म्य",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-23.json"
+            },
+            {
+              "id": "chapter-24",
+              "number": 24,
+              "title": "भस्मका माहात्म्य और धारणविधि",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-24.json"
+            },
+            {
+              "id": "chapter-25",
+              "number": 25,
+              "title": "रुद्राक्षका माहात्म्य",
+              "path": "books/shivamahapurana/pratham-khanda-purvardha/vidyeshvara-samhita/chapter-25.json"
             }
           ]
         },
