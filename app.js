@@ -19,6 +19,10 @@ function esc(s = "") {
   return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 }
 
+function meaningHtml(s = "") {
+  return esc(s).replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+}
+
 function buildFlatNavigation() {
   const items = [];
 
@@ -121,7 +125,7 @@ function render(blocks) {
               <div class="shloka-text">${(s.lines || []).map(line => `<div>${esc(line)}</div>`).join("")}</div>
             </div>`).join("")}
         </div>
-        ${showMeaning && b.meaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${esc(b.meaning)}</div></div>` : ""}
+        ${showMeaning && b.meaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${meaningHtml(b.meaning)}</div></div>` : ""}
       </div>
     </article>`;
   }).join("");
