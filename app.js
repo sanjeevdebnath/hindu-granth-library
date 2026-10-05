@@ -108,7 +108,7 @@ function render(blocks) {
 
   let lastSpeaker = null;
   let html = filtered.map(b => {
-    const showSpeaker = b.speaker && b.speaker !== lastSpeaker;
+    const showSpeaker = b.speaker && (b.speaker !== lastSpeaker || b.speaker_repeat);
     if (b.speaker) lastSpeaker = b.speaker;
     return `
     <article class="verse-group">
