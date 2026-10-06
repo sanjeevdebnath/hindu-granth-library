@@ -126,6 +126,7 @@ function render(blocks) {
             </div>`).join("")}
         </div>
         ${showMeaning && b.meaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${meaningHtml(b.meaning)}</div></div>` : ""}
+        ${b.additional_info ? `<div class="additional-info"><div class="additional-info-label">${esc(b.additional_info.label || "अतिरिक्त जानकारी")}</div>${(b.additional_info.items || []).map(item => `<div class="additional-info-item">${meaningHtml(item)}</div>`).join("")}</div>` : ""}
       </div>
     </article>`;
   }).join("");
