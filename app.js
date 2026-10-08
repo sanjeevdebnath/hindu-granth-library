@@ -121,11 +121,22 @@ function render(blocks) {
       ${showSpeaker ? `<div class="verse-top"><span class="speaker">${esc(b.speaker)}</span></div>` : ""}
       <div class="verse-body">
         <div class="sanskrit-group">
-          ${b.shlokas.map(s => `
+          ${(() => {
+            const displayShlokas = [];
+            for (const s of b.shlokas) {
+              const last = displayShlokas[displayShlokas.length - 1];
+              if (last && last.number === s.number) {
+                last.lines = [...(last.lines || []), ...(s.lines || [])];
+              } else {
+                displayShlokas.push({ ...s, lines: [...(s.lines || [])] });
+              }
+            }
+            return displayShlokas.map(s => `
             <div class="shloka" id="shloka-${s.number}">
               <span class="shloka-number">॥ ${hn(s.number)} ॥</span>
               <div class="shloka-text">${(s.lines || []).map(line => `<div>${esc(line)}</div>`).join("")}</div>
-            </div>`).join("")}
+            </div>`).join("");
+          })()}
         </div>
         ${showMeaning && b.meaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${meaningHtml(b.meaning)}</div></div>` : ""}
         ${b.additional_info ? `<div class="additional-info"><div class="additional-info-label">${esc(b.additional_info.label || "अतिरिक्त जानकारी")}</div>${(b.additional_info.items || []).map(item => `<div class="additional-info-item">${meaningHtml(item)}</div>`).join("")}</div>` : ""}
