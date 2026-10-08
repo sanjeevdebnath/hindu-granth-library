@@ -415,29 +415,6 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
   gap:14px;
   margin:14px 0 24px;
 }
-.page-btn {
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:var(--text);
-  border-radius:10px;
-  padding:10px 16px;
-  min-height:44px;
-  cursor:pointer;
-}
-.page-btn:hover:not(:disabled) {
-  border-color:var(--accent);
-  color:var(--accent);
-}
-.page-btn:disabled {
-  opacity:.35;
-  cursor:not-allowed;
-}
-.page-status {
-  min-width:110px;
-  text-align:center;
-  color:var(--muted);
-  font-size:.95rem;
-}
 @media (max-width:760px) {
   .chapter-pagination {
     gap:8px;
