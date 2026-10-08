@@ -390,54 +390,5 @@
     "sanskrit": "इति श्रीशिवमहापुराणे प्रथमायां विद्येश्वरसंहितायां शिवक्षेत्रवर्णनं नाम द्वादशोऽध्यायः ॥ १२॥",
     "meaning": "॥ इस प्रकार श्रीशिवमहापुराणके अन्तर्गत प्रथम विद्येश्वरसंहितामें शिवक्षेत्रका वर्णन नामक बारहवाँ अध्याय पूर्ण हुआ॥ १२॥"
   },
-  "source_note": "Primary source: user-provided Gita Press scan, Chapter 12 pages supplied in this conversation. Verse text, meaning text, grouping, and printed half-shloka boundaries were transcribed from the supplied scans. Public Sanskrit text was used only as an independent cross-check; the supplied scan remains authoritative.",
-  "pagination": {
-    "type": "shloka-ranges",
-    "pages": [
-      {
-        "from": {
-          "number": 1
-        },
-        "to": {
-          "number": 8,
-          "part": "first-half"
-        }
-      },
-      {
-        "from": {
-          "number": 8,
-          "part": "second-half"
-        },
-        "to": {
-          "number": 20,
-          "part": "first-half"
-        }
-      },
-      {
-        "from": {
-          "number": 20,
-          "part": "second-half"
-        },
-        "to": {
-          "number": 28
-        }
-      },
-      {
-        "from": {
-          "number": 29
-        },
-        "to": {
-          "number": 38
-        }
-      },
-      {
-        "from": {
-          "number": 39
-        },
-        "to": {
-          "number": 43
-        }
-      }
-    ]
-  }
+  "source_note": "Primary source: user-provided Gita Press scan, Chapter 12 pages supplied in this conversation. Verse text, meaning text, grouping, and printed half-shloka boundaries were transcribed from the supplied scans. Public Sanskrit text was used only as an independent cross-check; the supplied scan remains authoritative."
 }
