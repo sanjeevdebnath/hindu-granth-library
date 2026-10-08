@@ -403,30 +403,3 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
     margin-bottom: 6px;
   }
 }
-
-/* v36: chapter pagination
-   Pages are built from complete meaning blocks so Sanskrit and its meaning
-   always stay together. Mobile landscape shows 3 blocks per page; portrait
-   shows 4 blocks per page. */
-.chapter-pagination {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  margin:14px 0 24px;
-}
-@media (max-width:760px) {
-  .chapter-pagination {
-    gap:8px;
-    margin:10px 0 20px;
-  }
-  .page-btn {
-    flex:1;
-    padding:9px 10px;
-    font-size:.95rem;
-  }
-  .page-status {
-    min-width:88px;
-    font-size:.9rem;
-  }
-}
