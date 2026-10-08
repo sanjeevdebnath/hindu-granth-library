@@ -133,14 +133,14 @@ function render(blocks) {
     </article>`;
   }).join("");
 
-  if (currentChapter.opening_context && !q && currentPage === 1) {
+  if (currentChapter.opening_context && !q) {
     html = `<article class="opening-context">
       <div class="opening-sanskrit">${currentChapter.opening_context.sanskrit.map(x => `<div>${esc(x)}</div>`).join("")}</div>
       ${showMeaning && currentChapter.opening_context.meaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${esc(currentChapter.opening_context.meaning)}</div></div>` : ""}
     </article>` + html;
   }
 
-  if (currentChapter.colophon && !q && currentPage === totalPages) {
+  if (currentChapter.colophon && !q) {
     html += `<article class="colophon"><div class="colophon-sanskrit">${esc(currentChapter.colophon.sanskrit)}</div>${showMeaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${esc(currentChapter.colophon.meaning)}</div></div>` : ""}</article>`;
   }
 
@@ -304,7 +304,6 @@ async function init() {
 document.getElementById("searchInput").oninput = () => { render(currentChapter.blocks); };
 document.getElementById("meaningBtn").onclick = () => {
   showMeaning = !showMeaning;
-  currentPage = 1;
   document.getElementById("meaningBtn").classList.toggle("active", showMeaning);
   render(currentChapter.blocks);
 };
