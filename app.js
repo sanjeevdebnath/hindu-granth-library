@@ -4,7 +4,6 @@ let currentNav = null;
 let navigation = [];
 let showMeaning = true;
 let fontStep = 0;
-let currentPage = 1;
 let collapsedNav = JSON.parse(localStorage.getItem("hinduGranthalayaCollapsedNav") || "{}");
 
 const digits = ["०","१","२","३","४","५","६","७","८","९"];
@@ -99,41 +98,6 @@ function toggleNavSection(key) {
   renderChapters();
 }
 
-function getChapterPages(blocks) {
-  const size = window.matchMedia("(max-width: 900px) and (orientation: landscape)").matches ? 3 : 4;
-  return Array.from({length: Math.max(1, Math.ceil(blocks.length / size))}, (_, i) => ({
-    blockStart: i * size,
-    blockEnd: Math.min(blocks.length, (i + 1) * size)
-  }));
-}
-
-function renderPagination(totalPages, pages) {
-  const box = document.getElementById("chapterPagination");
-  if (!box) return;
-  if (totalPages <= 1) {
-    box.innerHTML = "";
-    box.hidden = true;
-    return;
-  }
-
-  currentPage = Math.max(1, Math.min(currentPage, totalPages));
-  box.hidden = false;
-  box.innerHTML = `
-    <button type="button" class="page-btn" data-page-action="prev" ${currentPage <= 1 ? "disabled" : ""}>← पिछला पृष्ठ</button>
-    <span class="page-status">पृष्ठ ${hn(currentPage)} / ${hn(totalPages)}</span>
-    <button type="button" class="page-btn" data-page-action="next" ${currentPage >= totalPages ? "disabled" : ""}>अगला पृष्ठ →</button>
-  `;
-
-  box.querySelectorAll("[data-page-action]").forEach(button => {
-    button.onclick = () => {
-      if (button.dataset.pageAction === "prev" && currentPage > 1) currentPage--;
-      if (button.dataset.pageAction === "next" && currentPage < totalPages) currentPage++;
-      render(currentChapter.blocks);
-      window.scrollTo({top: 0, behavior: "smooth"});
-    };
-  });
-}
-
 function render(blocks) {
   const q = document.getElementById("searchInput").value.trim().toLowerCase();
   const filtered = blocks.map(b => ({
@@ -146,11 +110,7 @@ function render(blocks) {
   const count = filtered.reduce((n, b) => n + b.shlokas.length, 0);
   document.getElementById("verseCount").textContent = q ? `${count} श्लोक मिले` : `इस अध्याय में ${count} श्लोक`;
 
-  const pages = getChapterPages(filtered);
-  const totalPages = pages.length;
-  currentPage = Math.max(1, Math.min(currentPage, totalPages));
-  const page = pages[currentPage - 1];
-  const pageBlocks = filtered.slice(page.blockStart, page.blockEnd);
+  const pageBlocks = filtered;
 
   let lastSpeaker = null;
   let html = pageBlocks.map(b => {
@@ -185,7 +145,6 @@ function render(blocks) {
   }
 
   document.getElementById("verseList").innerHTML = html;
-  renderPagination(totalPages, pages);
   updateReadingFontSizes();
 }
 
@@ -293,7 +252,6 @@ async function goToChapter(path, openParents = true) {
   if (!nav) return;
 
   currentNav = nav;
-  currentPage = 1;
   if (openParents) ensureCurrentNavOpen();
   currentChapter = await loadJSON(nav.path);
   document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
@@ -343,7 +301,7 @@ async function init() {
   await goToChapter(flat[0].path, false);
 }
 
-document.getElementById("searchInput").oninput = () => { currentPage = 1; render(currentChapter.blocks); };
+document.getElementById("searchInput").oninput = () => { render(currentChapter.blocks); };
 document.getElementById("meaningBtn").onclick = () => {
   showMeaning = !showMeaning;
   currentPage = 1;
