@@ -4,6 +4,7 @@ let currentNav = null;
 let navigation = [];
 let showMeaning = true;
 let fontStep = 0;
+let currentPage = 1;
 let collapsedNav = JSON.parse(localStorage.getItem("hinduGranthalayaCollapsedNav") || "{}");
 
 const digits = ["०","१","२","३","४","५","६","७","८","९"];
@@ -98,6 +99,37 @@ function toggleNavSection(key) {
   renderChapters();
 }
 
+function getChapterPageSize() {
+  return window.matchMedia("(max-width: 900px) and (orientation: landscape)").matches ? 3 : 4;
+}
+
+function renderPagination(totalPages) {
+  const box = document.getElementById("chapterPagination");
+  if (!box) return;
+  if (totalPages <= 1) {
+    box.innerHTML = "";
+    box.hidden = true;
+    return;
+  }
+
+  currentPage = Math.max(1, Math.min(currentPage, totalPages));
+  box.hidden = false;
+  box.innerHTML = `
+    <button type="button" class="page-btn" data-page-action="prev" ${currentPage <= 1 ? "disabled" : ""}>← पिछला पृष्ठ</button>
+    <span class="page-status">पृष्ठ ${hn(currentPage)} / ${hn(totalPages)}</span>
+    <button type="button" class="page-btn" data-page-action="next" ${currentPage >= totalPages ? "disabled" : ""}>अगला पृष्ठ →</button>
+  `;
+
+  box.querySelectorAll("[data-page-action]").forEach(button => {
+    button.onclick = () => {
+      if (button.dataset.pageAction === "prev" && currentPage > 1) currentPage--;
+      if (button.dataset.pageAction === "next" && currentPage < totalPages) currentPage++;
+      render(currentChapter.blocks);
+      window.scrollTo({top: 0, behavior: "smooth"});
+    };
+  });
+}
+
 function render(blocks) {
   const q = document.getElementById("searchInput").value.trim().toLowerCase();
   const filtered = blocks.map(b => ({
@@ -110,8 +142,14 @@ function render(blocks) {
   const count = filtered.reduce((n, b) => n + b.shlokas.length, 0);
   document.getElementById("verseCount").textContent = q ? `${count} श्लोक मिले` : `इस अध्याय में ${count} श्लोक`;
 
+  const pageSize = getChapterPageSize();
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  currentPage = Math.max(1, Math.min(currentPage, totalPages));
+  const pageStart = (currentPage - 1) * pageSize;
+  const pageBlocks = filtered.slice(pageStart, pageStart + pageSize);
+
   let lastSpeaker = null;
-  let html = filtered.map(b => {
+  let html = pageBlocks.map(b => {
     const showSpeaker = b.speaker && (b.speaker !== lastSpeaker || b.speaker_repeat);
     if (b.speaker) lastSpeaker = b.speaker;
     return `
@@ -131,18 +169,19 @@ function render(blocks) {
     </article>`;
   }).join("");
 
-  if (currentChapter.opening_context && !q) {
+  if (currentChapter.opening_context && !q && currentPage === 1) {
     html = `<article class="opening-context">
       <div class="opening-sanskrit">${currentChapter.opening_context.sanskrit.map(x => `<div>${esc(x)}</div>`).join("")}</div>
       ${showMeaning && currentChapter.opening_context.meaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${esc(currentChapter.opening_context.meaning)}</div></div>` : ""}
     </article>` + html;
   }
 
-  if (currentChapter.colophon && !q) {
+  if (currentChapter.colophon && !q && currentPage === totalPages) {
     html += `<article class="colophon"><div class="colophon-sanskrit">${esc(currentChapter.colophon.sanskrit)}</div>${showMeaning ? `<div class="meaning"><div class="meaning-label">हिन्दी अर्थ</div><div>${esc(currentChapter.colophon.meaning)}</div></div>` : ""}</article>`;
   }
 
   document.getElementById("verseList").innerHTML = html;
+  renderPagination(totalPages);
   updateReadingFontSizes();
 }
 
@@ -250,6 +289,7 @@ async function goToChapter(path, openParents = true) {
   if (!nav) return;
 
   currentNav = nav;
+  currentPage = 1;
   if (openParents) ensureCurrentNavOpen();
   currentChapter = await loadJSON(nav.path);
   document.getElementById("chapterTitle").textContent = `अध्याय ${hn(currentChapter.chapter)}`;
@@ -299,9 +339,10 @@ async function init() {
   await goToChapter(flat[0].path, false);
 }
 
-document.getElementById("searchInput").oninput = () => render(currentChapter.blocks);
+document.getElementById("searchInput").oninput = () => { currentPage = 1; render(currentChapter.blocks); };
 document.getElementById("meaningBtn").onclick = () => {
   showMeaning = !showMeaning;
+  currentPage = 1;
   document.getElementById("meaningBtn").classList.toggle("active", showMeaning);
   render(currentChapter.blocks);
 };
@@ -318,7 +359,7 @@ function updateReadingFontSizes() {
 }
 
 document.getElementById("fontBtn").onclick = () => { fontStep = (fontStep + 1) % 4; updateReadingFontSizes(); };
-window.addEventListener("resize", updateReadingFontSizes);
+window.addEventListener("resize", () => { updateReadingFontSizes(); if (currentChapter) render(currentChapter.blocks); });
 
 document.getElementById("menuBtn").onclick = () => {
   const sidebar = document.getElementById("sidebar");
