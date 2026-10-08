@@ -395,24 +395,58 @@
     "type": "shloka-ranges",
     "pages": [
       {
-        "from": 1,
-        "to": 6
+        "from": {
+          "number": 1
+        },
+        "to": {
+          "number": 8,
+          "part": "first-half"
+        }
       },
       {
-        "from": 7,
-        "to": 18
+        "from": {
+          "number": 8,
+          "part": "second-half"
+        },
+        "to": {
+          "number": 20,
+          "part": "first-half"
+        }
       },
       {
-        "from": 19,
-        "to": 28
+        "from": {
+          "number": 20,
+          "part": "second-half"
+        },
+        "to": {
+          "number": 28
+        }
       },
       {
-        "from": 29,
-        "to": 40
+        "from": {
+          "number": 29
+        },
+        "to": {
+          "number": 32,
+          "part": "first-half"
+        }
       },
       {
-        "from": 41,
-        "to": 43
+        "from": {
+          "number": 32,
+          "part": "second-half"
+        },
+        "to": {
+          "number": 38
+        }
+      },
+      {
+        "from": {
+          "number": 39
+        },
+        "to": {
+          "number": 43
+        }
       }
     ]
   }
