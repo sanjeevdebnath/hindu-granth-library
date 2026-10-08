@@ -99,11 +99,19 @@ function toggleNavSection(key) {
   renderChapters();
 }
 
-function getChapterPageSize() {
-  return window.matchMedia("(max-width: 900px) and (orientation: landscape)").matches ? 3 : 4;
+function getChapterPages(blocks) {
+  if (currentChapter?.pagination?.type === "shloka-ranges" && Array.isArray(currentChapter.pagination.pages)) {
+    return currentChapter.pagination.pages.map(p => ({ from: Number(p.from), to: Number(p.to) }));
+  }
+
+  const size = window.matchMedia("(max-width: 900px) and (orientation: landscape)").matches ? 3 : 4;
+  return Array.from({length: Math.max(1, Math.ceil(blocks.length / size))}, (_, i) => ({
+    blockStart: i * size,
+    blockEnd: Math.min(blocks.length, (i + 1) * size)
+  }));
 }
 
-function renderPagination(totalPages) {
+function renderPagination(totalPages, pages) {
   const box = document.getElementById("chapterPagination");
   if (!box) return;
   if (totalPages <= 1) {
@@ -142,11 +150,20 @@ function render(blocks) {
   const count = filtered.reduce((n, b) => n + b.shlokas.length, 0);
   document.getElementById("verseCount").textContent = q ? `${count} श्लोक मिले` : `इस अध्याय में ${count} श्लोक`;
 
-  const pageSize = getChapterPageSize();
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const pages = getChapterPages(filtered);
+  const totalPages = pages.length;
   currentPage = Math.max(1, Math.min(currentPage, totalPages));
-  const pageStart = (currentPage - 1) * pageSize;
-  const pageBlocks = filtered.slice(pageStart, pageStart + pageSize);
+  const page = pages[currentPage - 1];
+
+  const pageBlocks = page.from != null
+    ? filtered.map(b => ({
+        ...b,
+        shlokas: b.shlokas.filter(s => {
+          const n = Number(s.number);
+          return n >= page.from && n <= page.to;
+        })
+      })).filter(b => b.shlokas.length)
+    : filtered.slice(page.blockStart, page.blockEnd);
 
   let lastSpeaker = null;
   let html = pageBlocks.map(b => {
@@ -181,7 +198,7 @@ function render(blocks) {
   }
 
   document.getElementById("verseList").innerHTML = html;
-  renderPagination(totalPages);
+  renderPagination(totalPages, pages);
   updateReadingFontSizes();
 }
 
