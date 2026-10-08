@@ -101,7 +101,7 @@ function toggleNavSection(key) {
 
 function getChapterPages(blocks) {
   if (currentChapter?.pagination?.type === "shloka-ranges" && Array.isArray(currentChapter.pagination.pages)) {
-    return currentChapter.pagination.pages.map(p => ({ from: Number(p.from), to: Number(p.to) }));
+    return currentChapter.pagination.pages.map(p => ({ from: p.from, to: p.to }));
   }
 
   const size = window.matchMedia("(max-width: 900px) and (orientation: landscape)").matches ? 3 : 4;
@@ -109,6 +109,16 @@ function getChapterPages(blocks) {
     blockStart: i * size,
     blockEnd: Math.min(blocks.length, (i + 1) * size)
   }));
+}
+
+function shlokaRank(shloka) {
+  const number = Number(shloka.number);
+  return number * 2 + (shloka.part === "second-half" ? 1 : 0);
+}
+
+function boundaryRank(boundary) {
+  const number = Number(boundary.number);
+  return number * 2 + (boundary.part === "second-half" ? 1 : 0);
 }
 
 function renderPagination(totalPages, pages) {
@@ -159,8 +169,8 @@ function render(blocks) {
     ? filtered.map(b => ({
         ...b,
         shlokas: b.shlokas.filter(s => {
-          const n = Number(s.number);
-          return n >= page.from && n <= page.to;
+          const rank = shlokaRank(s);
+          return rank >= boundaryRank(page.from) && rank <= boundaryRank(page.to);
         })
       })).filter(b => b.shlokas.length)
     : filtered.slice(page.blockStart, page.blockEnd);
