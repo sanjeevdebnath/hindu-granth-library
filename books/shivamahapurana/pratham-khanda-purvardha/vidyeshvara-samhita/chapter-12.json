@@ -427,16 +427,6 @@
           "number": 29
         },
         "to": {
-          "number": 32,
-          "part": "first-half"
-        }
-      },
-      {
-        "from": {
-          "number": 32,
-          "part": "second-half"
-        },
-        "to": {
           "number": 38
         }
       },
