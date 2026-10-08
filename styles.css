@@ -357,3 +357,24 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
     overflow: hidden;
   }
 }
+
+
+/* v33: landscape reading continuity
+   The Sanskrit lines already contain the printed verse number at the end
+   (॥ १५॥, ॥ १६॥, etc.). Hide the duplicate number above each shloka
+   in landscape mode to save vertical space and keep the text flowing. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .shloka-number {
+    display: none;
+  }
+
+  .shloka {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .shloka:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
