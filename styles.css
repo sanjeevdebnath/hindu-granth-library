@@ -393,3 +393,13 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
     padding-top: 0;
   }
 }
+
+
+/* v35: tighter panel spacing in landscape
+   Meaning blocks remain distinct cards, but consecutive white rounded
+   panels sit closer together to make better use of the reading area. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .verse-group {
+    margin-bottom: 6px;
+  }
+}
