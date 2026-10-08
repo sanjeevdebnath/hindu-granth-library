@@ -378,3 +378,18 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
     margin-bottom: 0;
   }
 }
+
+
+/* v34: tighter shloka continuity in landscape
+   Keep a subtle divider, but reduce the vertical gap between consecutive
+   shlokas so grouped verses read as one continuous passage. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .shloka {
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+  }
+
+  .shloka + .shloka {
+    padding-top: 0;
+  }
+}
