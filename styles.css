@@ -188,3 +188,97 @@ button,input{font:inherit}.topbar{height:72px;background:#fffdf9;border-bottom:1
     font-size:.95rem;
   }
 }
+
+
+/* v31: senior-friendly landscape reading mode
+   Portrait keeps the existing sequential reading layout.
+   On mobile landscape, each meaning block becomes a two-column
+   study layout: all shlokas on the left, complete meaning on the right. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .content {
+    width: min(1100px, 100%);
+    padding: 20px 18px 50px;
+  }
+
+  .breadcrumbs {
+    margin-bottom: 14px;
+  }
+
+  .chapter-header {
+    padding: 20px 22px;
+  }
+
+  .chapter-header h1 {
+    font-size: 1.9rem;
+  }
+
+  .chapter-header p {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .toolbar {
+    margin: 14px 0 10px;
+  }
+
+  .verse-group {
+    margin-bottom: 12px;
+  }
+
+  .verse-body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: start;
+    padding: 18px 20px 20px;
+  }
+
+  .sanskrit-group {
+    padding-right: 20px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .meaning {
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: 20px;
+    border-top: 0;
+    font-size: var(--meaning-size, 18.24px) !important;
+    line-height: 1.8;
+  }
+
+  .additional-info {
+    grid-column: 1 / -1;
+  }
+
+  .opening-context {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: start;
+    padding: 20px;
+  }
+
+  .opening-context .opening-sanskrit {
+    padding-right: 20px;
+    border-right: 1px solid var(--border);
+  }
+
+  .opening-context .meaning {
+    padding-left: 20px;
+  }
+
+  .colophon {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: start;
+  }
+
+  .colophon-sanskrit {
+    padding-right: 20px;
+    border-right: 1px solid var(--border);
+  }
+
+  .colophon .meaning {
+    padding-left: 20px;
+  }
+}
